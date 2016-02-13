@@ -1,93 +1,224 @@
-$icon-font-path: '../fonts/';
+@import url(https://fonts.googleapis.com/css?family=Bree+Serif|Patua+One|Alfa+Slab+One|Arimo);
 
-// bower:scss
-@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-// endbower
+/* button colors (inactive and highlighted) */
+$tl-color: #C00;
+$tl-color-hl: #F00;
+$tr-color: #0C0;
+$tr-color-hl: #0F0;
+$bl-color: #00C;
+$bl-color-hl: #00F;
+$br-color: #CC0;
+$br-color-hl: #FF0;
+$button-width: 250px;
+$button-height: 250px;
+$bws: 12px; /* border width single */
+$bwd: 24px; /* border width double */
 
-.browserupgrade {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
+$device-bg: #222;
+/* control panel */
+$panel-bg-width: 250px;
+$panel-bg-height: 250px;
+$panel-width: 225px;
+$panel-height: 225px;
+
+$display-height: 42px;
+$display-width: 60px;
+
+$start-radius: 20px;
+
+html, .bg-container {
+  margin: 0;
+  padding: 0;
+  background: url('http://orig07.deviantart.net/d03e/f/2008/148/c/3/wood_floor_by_gnrbishop.jpg') repeat left top;
 }
 
-/* Space out content a bit */
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-
-  /* Make the masthead heading the same height as the navigation */
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
-  }
-}
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
-
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
+.title {
+  margin-top: $panel-bg-height * 0.15;
   text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-  }
+  font-family: 'Alfa Slab One', cursive;
+  font-size: 3.5em;
 }
 
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-  p + h4 {
-    margin-top: 28px;
-  }
+.trademark {
+  font-size: 0.4em;
+  vertical-align: 1em;
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
 
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
+@mixin selection{
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
 
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
+.quadrant {
+  width: $button-width;
+  height: $button-height;
+  border: $bws solid $device-bg;
+}
+.t-l {
+  background-color: $tl-color;
+  float: left;
+  border-top-left-radius: 100%;
+  border-left-width: $bwd;
+  border-top-width: $bwd;
+}
 
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
+.t-r {
+  background-color: $tr-color;
+  margin-left: $button-width;
+  border-top-right-radius: 100%;
+  border-top-width: $bwd;
+  border-right-width: $bwd;
+}
+
+.b-l {
+  background-color: $bl-color;
+  float: left;
+  border-bottom-left-radius: 100%;
+  border-bottom-width: $bwd;
+  border-left-width: $bwd;
+}
+
+.b-r { 
+  background-color: $br-color;
+  margin-left: $button-width;
+  border-bottom-right-radius: 100%;
+  border-bottom-width: $bwd;
+  border-right-width: $bwd;
+}
+.panel-bg {
+  width: $panel-bg-width;
+  height: $panel-bg-height;
+  @include border-radius(100%);
+  background-color: $device-bg;
+  display: block;
+  float: left;
+  position: absolute;
+  left: $button-width - $panel-bg-width/2;
+  top: $button-height - $panel-bg-height/2;
+}
+
+.panel {
+  float: left;
+  width: $panel-width;
+  height: $panel-height;
+  background-color: #fff5f5;
+  position: absolute;
+  @include border-radius(100%);
+  left: $button-width - $panel-width/2;
+  top: $button-height - $panel-height/2;
+}
+
+.display {
+  float: left;
+  background: none;
+  background-color: #322;
+  position: absolute;
+  @include border-radius(10%);
+  left: $panel-width * 0.1;
+  top: $panel-height * 0.45;
+  width: $display-width;
+  height: $display-height;
+}
+
+.clickable {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.button {
+  width: $start-radius;
+  height: $start-radius;
+  @include border-radius(100%);
+  border: 2px solid #444;
+  box-shadow: 0 2px 2px 0 #444;
+  float: left;
+  position: absolute;
+}
+
+.start {
+  position: absolute;
+  background-color: #F00;
+  left: $panel-width * 0.5;
+  top: $panel-height * 0.55;
+}
+
+.start:active {
+  box-shadow: 0 1px 1px #222;
+  top: $panel-height * 0.55 + 2px;
+}
+
+.strict {
+  position: absolute;
+  background-color: #FF0;
+  left: $panel-width * 0.75;
+  top: $panel-height * 0.55;
+}
+
+.strict:active {
+  box-shadow: 0 1px 1px #222;
+  top: $panel-height * 0.55 + 2px;
+}
+
+div {
+  @include selection;
+}
+
+#start-label {
+  position: absolute;
+  top: $panel-height * 0.67;
+  left: $panel-width * 0.47;
+  font-size: 0.8em;
+  font-family: 'Arimo', sans-serif;
+}
+
+#strict-label {
+  @extend #start-label;
+  top: $panel-height * 0.67;
+  left: $panel-width * 0.72;
+}
+
+#display-label {
+  @extend #start-label;
+  top: $panel-height * 0.67;
+  left: $panel-width * 0.14;
+}
+
+#on-label {
+  @extend #start-label;
+  top: $panel-height * 0.8;
+  left: $panel-width * 0.3;
+}
+
+#off-label {
+  @extend #start-label;
+  top: $panel-height * 0.8;
+  left: $panel-width * 0.65;
+}
+
+#switch {
+  position: absolute;
+  top: $panel-height * 0.8;
+  left: $panel-width * 0.4;
+  background-color: black;
+  width: 50px;
+  height: 20px;
+  @include border-radius(10%);
+}
+
+#switch-position {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background-color: #0BB;
+  width: 20px;
+  height: 16px;
+  @include border-radius(10%);
 }
