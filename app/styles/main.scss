@@ -22,24 +22,6 @@ $display-width: 60px;
 
 $button-radius: 20px;
 
-html, .bg-container {
-  margin: 0;
-  padding: 0;
-  background: url('http://orig07.deviantart.net/d03e/f/2008/148/c/3/wood_floor_by_gnrbishop.jpg') repeat left top;
-}
-
-.title {
-  margin-top: $panel-bg-height * 0.15;
-  text-align: center;
-  font-family: 'Alfa Slab One', cursive;
-  font-size: 3.5em;
-}
-
-.trademark {
-  font-size: 0.4em;
-  vertical-align: 1em;
-}
-
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
@@ -47,21 +29,40 @@ html, .bg-container {
   border-radius: $radius;
 }
 
+/*
+make things unselectable
+*/
 @mixin selection{
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
 }
 
+html, .bg-container {
+  margin: 0;
+  padding: 0;
+  background: url('http://orig07.deviantart.net/d03e/f/2008/148/c/3/wood_floor_by_gnrbishop.jpg') repeat left top;
+}
+
+div {
+  @include selection;
+}
+
+/*
+make things clickable
+*/
+.clickable {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/*
+the outer colored buttons (=quadrants)
+*/
 .quadrant {
   width: $button-width;
   height: $button-height;
   border: $bws solid $device-bg;
-}
-
-.clickable {
-  pointer-events: auto;
-  cursor: pointer;
 }
 
 .t-l {
@@ -95,6 +96,10 @@ html, .bg-container {
   border-bottom-width: $bwd;
   border-right-width: $bwd;
 }
+
+/*
+center panel
+*/
 .panel-bg {
   width: $panel-bg-width;
   height: $panel-bg-height;
@@ -118,10 +123,22 @@ html, .bg-container {
   top: ($panel-bg-height - $panel-height) / 2;
 }
 
+.title {
+  text-align: center;
+  font-family: 'Alfa Slab One', cursive;
+  font-size: 3em;
+  margin-top: 0.8em;
+}
+
+.trademark {
+  font-size: 0.4em;
+  vertical-align: 1em;
+}
+
 .display {
   float: left;
   background: none;
-  background-color: #322;
+  background-color: #2D1F1F;
   position: absolute;
   @include border-radius(10%);
   left: $panel-width * 0.1;
@@ -129,6 +146,8 @@ html, .bg-container {
   width: $display-width;
   height: $display-height;
 }
+
+// center panel buttons (start, strict)
 
 .button {
   width: $button-radius;
@@ -164,9 +183,6 @@ html, .bg-container {
   top: $panel-height * 0.55 + 2px;
 }
 
-div {
-  @include selection;
-}
 
 #start-label {
   position: absolute;

@@ -40,6 +40,9 @@ var game = {
     // TODO
   },
 	activateQuadrant: function(event) {
+    if(this.running === false) {
+      return;
+    }
     var id = event.currentTarget.getAttribute('id');
     // highlight the button
 	  this.quadrants[id]['$element'].css('background-color', this.quadrants[id]['colorActive']);
@@ -63,7 +66,12 @@ var game = {
   },
   toggleSwitch: function() {
     // TODO
-    this.$switchPosition.css('left', '28px');
+    if(this.running) {
+      this.$switchPosition.css('left', '2px');
+    } else {
+      this.$switchPosition.css('left', '28px');
+    }
+    this.running = !this.running;
   },
 };
 
