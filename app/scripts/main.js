@@ -37,11 +37,13 @@ var game = {
     // TODO
     this.$switchPosition.css('left', '2px');
     this.$button.removeClass('button-active');
+    this.$display.css('visibility', 'hidden');
   },
   startGame: function() {
     // TODO
     this.$switchPosition.css('left', '28px');
     this.$button.addClass('button-active');
+    this.$display.css('visibility', 'visible');
   },
 	activateQuadrant: function(event) {
     if(this.running === false) {
@@ -53,12 +55,17 @@ var game = {
     // play audio
     this.quadrants[id]['audio'].currentTime = 0;
     this.quadrants[id]['audio'].play();
+    setTimeout(this.deactivateQuadrant.bind(this), 1000, id);
 	},
+  deactivateQuadrant: function(id) {
+    this.quadrants[id]['$element'].css('background-color', this.quadrants[id]['colorNormal']);
+  },
   cacheDom: function() {
     this.$quadrant = $('.quadrant');
     this.$switch = $('#switch');
     this.$switchPosition = $('#switch-position');
     this.$button = $('.button');
+    this.$display = $('.display span');
     for(var el in this.quadrants) {
       this.quadrants[el]['$element'] = $('#' + el);
       this.quadrants[el]['audio'] =

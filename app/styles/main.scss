@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Bree+Serif|Patua+One|Alfa+Slab+One|Arimo);
+@import url(https://fonts.googleapis.com/css?family=Alfa+Slab+One|Arimo|VT323);
 
 /* button colors (inactive and highlighted) */
 $tl-color: #C00;
@@ -145,6 +145,18 @@ center panel
   top: $panel-height * 0.45;
   width: $display-width;
   height: $display-height;
+  line-height: $display-height;
+  text-align: center;
+}
+
+.display span {
+  display: inline-block;
+  vertical-align: center;
+  font-family: 'VT323';
+  color: red;
+  font-size: 2em;
+  letter-spacing: 0.1em;
+  visibility: hidden;
 }
 
 // center panel buttons (start, strict)
