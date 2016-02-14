@@ -159,16 +159,16 @@ center panel
   position: absolute;
 }
 
+.button-active:active {
+  box-shadow: 0 1px 1px #222;
+  top: $panel-height * 0.55 + 2px;
+}
+
 .start {
   position: absolute;
   background-color: #F00;
   left: $panel-width * 0.5;
   top: $panel-height * 0.55;
-}
-
-.start:active {
-  box-shadow: 0 1px 1px #222;
-  top: $panel-height * 0.55 + 2px;
 }
 
 .strict {
@@ -177,12 +177,6 @@ center panel
   left: $panel-width * 0.75;
   top: $panel-height * 0.55;
 }
-
-.strict:active {
-  box-shadow: 0 1px 1px #222;
-  top: $panel-height * 0.55 + 2px;
-}
-
 
 #start-label {
   position: absolute;
@@ -206,14 +200,14 @@ center panel
 
 #on-label {
   @extend #start-label;
-  top: $panel-height * 0.8;
-  left: $panel-width * 0.3;
+  top: $panel-height * 0.81;
+  left: $panel-width * 0.64;
 }
 
 #off-label {
   @extend #start-label;
-  top: $panel-height * 0.8;
-  left: $panel-width * 0.65;
+  top: $panel-height * 0.81;
+  left: $panel-width * 0.27;
 }
 
 #switch {
