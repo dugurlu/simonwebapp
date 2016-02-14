@@ -53,7 +53,10 @@ make things clickable
 */
 .clickable {
   pointer-events: auto;
-  cursor: pointer;
+}
+
+.unclickable {
+  pointer-events: none;
 }
 
 /*
