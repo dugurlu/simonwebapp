@@ -2,19 +2,15 @@
 
 /* button colors (inactive and highlighted) */
 $tl-color: #C00;
-$tl-color-hl: #F00;
 $tr-color: #0C0;
-$tr-color-hl: #0F0;
 $bl-color: #00C;
-$bl-color-hl: #00F;
 $br-color: #CC0;
-$br-color-hl: #FF0;
 $button-width: 250px;
 $button-height: 250px;
 $bws: 12px; /* border width single */
 $bwd: 24px; /* border width double */
 
-$device-bg: #222;
+$device-bg: #222; 
 /* control panel */
 $panel-bg-width: 250px;
 $panel-bg-height: 250px;
@@ -24,7 +20,7 @@ $panel-height: 225px;
 $display-height: 42px;
 $display-width: 60px;
 
-$start-radius: 20px;
+$button-radius: 20px;
 
 html, .bg-container {
   margin: 0;
@@ -62,17 +58,23 @@ html, .bg-container {
   height: $button-height;
   border: $bws solid $device-bg;
 }
+
+.clickable {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
 .t-l {
   background-color: $tl-color;
-  float: left;
   border-top-left-radius: 100%;
   border-left-width: $bwd;
   border-top-width: $bwd;
+  float: left;
 }
 
 .t-r {
   background-color: $tr-color;
-  margin-left: $button-width;
+  margin-left: $button-width + $bwd + $bws;
   border-top-right-radius: 100%;
   border-top-width: $bwd;
   border-right-width: $bwd;
@@ -88,7 +90,7 @@ html, .bg-container {
 
 .b-r { 
   background-color: $br-color;
-  margin-left: $button-width;
+  margin-left: $button-width + $bwd + $bws;
   border-bottom-right-radius: 100%;
   border-bottom-width: $bwd;
   border-right-width: $bwd;
@@ -101,8 +103,8 @@ html, .bg-container {
   display: block;
   float: left;
   position: absolute;
-  left: $button-width - $panel-bg-width/2;
-  top: $button-height - $panel-bg-height/2;
+  left: $button-width + $bwd + $bws - ($panel-bg-width/2);
+  top: $button-height + $bwd + $bws - ($panel-bg-height/2) ;
 }
 
 .panel {
@@ -110,10 +112,10 @@ html, .bg-container {
   width: $panel-width;
   height: $panel-height;
   background-color: #fff5f5;
-  position: absolute;
+  position: relative;
   @include border-radius(100%);
-  left: $button-width - $panel-width/2;
-  top: $button-height - $panel-height/2;
+  left: ($panel-bg-width - $panel-width) / 2;
+  top: ($panel-bg-height - $panel-height) / 2;
 }
 
 .display {
@@ -128,14 +130,9 @@ html, .bg-container {
   height: $display-height;
 }
 
-.clickable {
-  pointer-events: auto;
-  cursor: pointer;
-}
-
 .button {
-  width: $start-radius;
-  height: $start-radius;
+  width: $button-radius;
+  height: $button-radius;
   @include border-radius(100%);
   border: 2px solid #444;
   box-shadow: 0 2px 2px 0 #444;
