@@ -26,35 +26,51 @@ var game = {
   },
 	resetGame: function() {
     // TODO
-    this.$switchPosition.css('left', '2px');
-    this.deactivateButtons();
-    this.$display.css('visibility', 'hidden');
     this.sequence = [];
   },
   startGame: function() {
     // TODO separate 'power up' and 'start game'
-    this.$switchPosition.css('left', '28px');
-    this.activateButtons();
-    this.$display.css('visibility', 'visible');
-    this.deactivateButtons();
+    console.log('start pressed');
+    return;
+    this.enableQuadrants();
     setTimeout(this.play.bind(this), 1000);
+  },
+  powerOn: function() {
+    // TODO
+    this.$switchPosition.css('left', '28px');
+    this.$display.css('visibility', 'visible');
+  },
+  powerOff: function() {
+    // TODO
+    this.$switchPosition.css('left', '2px');
+    this.disableQuadrants();
+    this.$display.css('visibility', 'hidden');
+    this.resetGame();
   },
   play: function() {
     // get new random quadrant to play
-    this.deactivateButtons();
+    this.disableQuadrants();
     var newQuadrant = 'sq' + Math.floor(Math.random() * 4);
     this.sequence.push(newQuadrant);
     this.playSequence();
-    this.activateButtons();
+    this.enableQuadrants();
     this.checkUserSequence(); // TODO
   },
-  deactivateButtons: function() {
+  disableQuadrants: function() {
     this.$button.removeClass('button-active');
+    this.$button.addClass('unclickable');
     this.$quadrant.addClass('unclickable');
   },
-  activateButtons: function() {
+  enableQuadrants: function() {
     this.$button.addClass('button-active');
+    this.$button.removeClass('unclickable');
     this.$quadrant.removeClass('unclickable');
+  },
+  disableButtons: function() {
+
+  },
+  enableButtons: function() {
+
   },
   playSequence: function() {
     for(var i in this.sequence) {
@@ -64,13 +80,16 @@ var game = {
   checkUserSequence: function() {
 
   },
+  toggleStrict: function() {
+    console.log('strict pressed');
+  },
 	activateQuadrant: function(event) {
     if(this.running === false) {
       return;
     }
     var id = (typeof event === 'string') ? event : event.currentTarget.getAttribute('id');
     // highlight the button
-    this.deactivateButtons();
+    this.disableQuadrants();
 	  this.quadrants[id]['$element'].css('background-color', this.quadrants[id]['colorActive']);
     // play audio
     this.quadrants[id]['audio'].currentTime = 0;
@@ -85,10 +104,12 @@ var game = {
   },
   cacheDom: function() {
     this.$quadrant = $('.quadrant');
-    this.$switch = $('#switch');
+    this.$powerSwitch = $('#switch');
     this.$switchPosition = $('#switch-position');
     this.$button = $('.button');
     this.$display = $('.display span');
+    this.$startButton = $('.button.start');
+    this.$strictButton = $('.button.strict');
     for(var el in this.quadrants) {
       this.quadrants[el]['$element'] = $('#' + el);
       this.quadrants[el]['audio'] =
@@ -97,13 +118,15 @@ var game = {
   },
   bindEvents: function() {
     this.$quadrant.on('click', this.activateQuadrant.bind(this));
-    this.$switch.on('click', this.toggleSwitch.bind(this));
+    this.$powerSwitch.on('click', this.toggleSwitch.bind(this));
+    this.$startButton.on('click', this.startGame.bind(this));
+    this.$strictButton.on('click', this.toggleStrict.bind(this));
   },
   toggleSwitch: function() {
     if(this.running) {
-      this.resetGame();
+      this.powerOff();
     } else {
-      this.startGame();
+      this.powerOn();
     }
     this.running = !this.running;
   },
