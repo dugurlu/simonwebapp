@@ -1,10 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Alfa+Slab+One|Arimo|VT323);
 
 /* button colors (inactive and highlighted) */
-$tl-color: #C00;
-$tr-color: #0C0;
-$bl-color: #00C;
-$br-color: #CC0;
+$tl-color: #B10000;
+$tr-color: #00B100;
+$bl-color: #0000B1;
+$br-color: #B1B100;
 $button-width: 250px;
 $button-height: 250px;
 $bws: 12px; /* border width single */
@@ -112,7 +112,7 @@ center panel
   float: left;
   position: absolute;
   left: $button-width + $bwd + $bws - ($panel-bg-width/2);
-  top: $button-height + $bwd + $bws - ($panel-bg-height/2) ;
+  top: $button-height + $bwd + $bws - ($panel-bg-height/2);
 }
 
 .panel {
@@ -120,10 +120,10 @@ center panel
   width: $panel-width;
   height: $panel-height;
   background-color: #fff5f5;
-  position: relative;
+  position: absolute;
   @include border-radius(100%);
-  left: ($panel-bg-width - $panel-width) / 2;
-  top: ($panel-bg-height - $panel-height) / 2;
+  left: ($panel-bg-width - $panel-width)/2;
+  top: ($panel-bg-height - $panel-height)/2;
 }
 
 .title {
@@ -145,7 +145,7 @@ center panel
   position: absolute;
   @include border-radius(10%);
   left: $panel-width * 0.1;
-  top: $panel-height * 0.45;
+  top: $panel-height * 0.47;
   width: $display-width;
   height: $display-height;
   line-height: $display-height;
@@ -168,7 +168,7 @@ center panel
   width: $button-radius;
   height: $button-radius;
   @include border-radius(100%);
-  border: 2px solid #444;
+  border: 3px solid #444;
   box-shadow: 0 2px 2px 0 #444;
   float: left;
   position: absolute;
@@ -176,26 +176,26 @@ center panel
 
 .button:active {
   box-shadow: 0 1px 1px #222;
-  top: $panel-height * 0.55 + 2px;
+  top: $panel-height * 0.55 + 1px;
 }
 
 .start {
   position: absolute;
   background-color: #F00;
-  left: $panel-width * 0.5;
   top: $panel-height * 0.55;
+  left: $panel-width * 0.5;
 }
 
 .strict {
   position: absolute;
   background-color: #FF0;
-  left: $panel-width * 0.75;
   top: $panel-height * 0.55;
+  left: $panel-width * 0.75;
 }
 
 #start-label {
   position: absolute;
-  top: $panel-height * 0.67;
+  top: $panel-height * 0.70;
   left: $panel-width * 0.47;
   font-size: 0.8em;
   font-family: 'Arimo', sans-serif;
@@ -203,31 +203,29 @@ center panel
 
 #strict-label {
   @extend #start-label;
-  top: $panel-height * 0.67;
   left: $panel-width * 0.72;
 }
 
 #display-label {
   @extend #start-label;
-  top: $panel-height * 0.67;
   left: $panel-width * 0.14;
 }
 
 #on-label {
   @extend #start-label;
-  top: $panel-height * 0.81;
+  top: $panel-height * 0.84;
   left: $panel-width * 0.64;
 }
 
 #off-label {
   @extend #start-label;
-  top: $panel-height * 0.81;
+  top: $panel-height * 0.84;
   left: $panel-width * 0.27;
 }
 
 #switch {
   position: absolute;
-  top: $panel-height * 0.8;
+  top: $panel-height * 0.83;
   left: $panel-width * 0.4;
   background-color: black;
   width: 50px;
