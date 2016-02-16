@@ -38,7 +38,7 @@ var game = {
     }
     this.disableQuadrants();
     this.showNewSequence();
-    this.enableQuadrants();
+
     this.checkUserSequence();
   },
   powerOn: function() {
@@ -61,8 +61,8 @@ var game = {
     this.sequence.push(newQuadrant);
     this.$display.text(this.sequence.length);
     $.when.apply(null, this.playSequence()).done(function() {
-      console.log('all sequence played');
-    });
+      this.enableQuadrants();
+    }.bind(this));
   },
   enablePointerEvents: function(selector){
     selector.css('pointer-events', 'auto');
@@ -113,6 +113,8 @@ var game = {
     // play audio
     this.quadrants[id]['audio'].currentTime = 0;
     this.quadrants[id]['audio'].play();
+
+    setTimeout(this.deactivateQuadrant.bind(this), 500, id);
 	},
   deactivateQuadrant: function(id, deferred) {
     this.quadrants[id]['audio'].pause();
