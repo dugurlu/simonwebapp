@@ -39,11 +39,13 @@ var game = {
     // TODO
     this.$switchPosition.css('left', '28px');
     this.$display.css('visibility', 'visible');
+    this.enableButtons();
   },
   powerOff: function() {
     // TODO
-    this.$switchPosition.css('left', '2px');
+    this.disableButtons();
     this.disableQuadrants();
+    this.$switchPosition.css('left', '2px');
     this.$display.css('visibility', 'hidden');
     this.resetGame();
   },
@@ -57,20 +59,16 @@ var game = {
     this.checkUserSequence(); // TODO
   },
   disableQuadrants: function() {
-    this.$button.removeClass('button-active');
-    this.$button.addClass('unclickable');
     this.$quadrant.addClass('unclickable');
   },
   enableQuadrants: function() {
-    this.$button.addClass('button-active');
-    this.$button.removeClass('unclickable');
     this.$quadrant.removeClass('unclickable');
   },
   disableButtons: function() {
-
+    this.$button.addClass('unclickable');
   },
   enableButtons: function() {
-
+    this.$button.removeClass('unclickable');
   },
   playSequence: function() {
     for(var i in this.sequence) {

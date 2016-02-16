@@ -10,7 +10,7 @@ $button-height: 250px;
 $bws: 12px; /* border width single */
 $bwd: 24px; /* border width double */
 
-$device-bg: #222; 
+$device-bg: #222;
 /* control panel */
 $panel-bg-width: 250px;
 $panel-bg-height: 250px;
@@ -92,7 +92,7 @@ the outer colored buttons (=quadrants)
   border-left-width: $bwd;
 }
 
-.b-r { 
+.b-r {
   background-color: $br-color;
   margin-left: $button-width + $bwd + $bws;
   border-bottom-right-radius: 100%;
@@ -174,7 +174,7 @@ center panel
   position: absolute;
 }
 
-.button-active:active {
+.button:active {
   box-shadow: 0 1px 1px #222;
   top: $panel-height * 0.55 + 2px;
 }
