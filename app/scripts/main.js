@@ -30,13 +30,16 @@ var game = {
   },
 	resetGame: function() {
     // TODO
-    this.sequence = [];
+    // this.sequence = [];
   },
   startGame: function() {
     if(this.running) {
       this.resetGame();
     }
+    this.disableQuadrants();
     this.showNewSequence();
+    this.enableQuadrants();
+    this.checkUserSequence();
   },
   powerOn: function() {
     this.$switchPosition.css('left', '28px');
@@ -57,9 +60,9 @@ var game = {
     var newQuadrant = 'sq' + (1 + Math.floor(Math.random() * 4));
     this.sequence.push(newQuadrant);
     this.$display.text(this.sequence.length);
-    this.playSequence();
-    this.enableQuadrants();
-    this.checkUserSequence(); // TODO
+    $.when.apply(null, this.playSequence()).done(function() {
+      console.log('all sequence played');
+    });
   },
   enablePointerEvents: function(selector){
     selector.css('pointer-events', 'auto');
@@ -80,12 +83,19 @@ var game = {
     this.enablePointerEvents(this.$button);
   },
   playSequence: function() {
+    // use promises to later detec when all the sequence is done
+    var promises = [];
+    var deferred;
     for(var i in this.sequence) {
       var activateTimer = i * 1000;
       var deactivateTimer = i * 1000 + 500;
+      deferred = $.Deferred();
+      promises.push(deferred);
+
       setTimeout(this.activateQuadrant.bind(this), activateTimer , this.sequence[i]);
-      setTimeout(this.deactivateQuadrant.bind(this), deactivateTimer, this.sequence[i]);
+      setTimeout(this.deactivateQuadrant.bind(this), deactivateTimer, this.sequence[i], deferred);
     }
+    return promises;
   },
   checkUserSequence: function() {
     // TODO
@@ -104,10 +114,13 @@ var game = {
     this.quadrants[id]['audio'].currentTime = 0;
     this.quadrants[id]['audio'].play();
 	},
-  deactivateQuadrant: function(id) {
+  deactivateQuadrant: function(id, deferred) {
     this.quadrants[id]['audio'].pause();
     this.quadrants[id]['audio'].currentTime = 0;
     this.quadrants[id]['$element'].css('background-color', this.quadrants[id]['colorNormal']);
+    if(deferred) {
+      deferred.resolve();
+    }
   },
   deactivateAllQuadrants: function() {
     for(var el in this.quadrants) {
