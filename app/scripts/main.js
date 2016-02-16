@@ -36,7 +36,7 @@ var game = {
     if(this.running) {
       this.resetGame();
     }
-    this.showSequence();
+    this.showNewSequence();
   },
   powerOn: function() {
     this.$switchPosition.css('left', '28px');
@@ -48,10 +48,11 @@ var game = {
     this.disableQuadrants();
     this.deactivateAllQuadrants();
     this.$switchPosition.css('left', '2px');
+    this.$display.text('--')
     this.$display.css('visibility', 'hidden');
     this.resetGame();
   },
-  showSequence: function() {
+  showNewSequence: function() {
     // get new random quadrant to play
     var newQuadrant = 'sq' + (1 + Math.floor(Math.random() * 4));
     this.sequence.push(newQuadrant);
