@@ -1,4 +1,4 @@
-var game = {
+const game = {
   quadrants: {
     sq1: {
       colorActive: '#F00',
@@ -38,7 +38,6 @@ var game = {
     }
     this.disableQuadrants();
     this.showNewSequence();
-
     this.checkUserSequence();
   },
   powerOn: function() {
@@ -57,7 +56,7 @@ var game = {
   },
   showNewSequence: function() {
     // get new random quadrant to play
-    var newQuadrant = 'sq' + (1 + Math.floor(Math.random() * 4));
+    let newQuadrant = 'sq' + (1 + Math.floor(Math.random() * 4));
     this.sequence.push(newQuadrant);
     this.$display.text(this.sequence.length);
     $.when.apply(null, this.playSequence()).done(function() {
@@ -85,10 +84,10 @@ var game = {
   playSequence: function() {
     // use promises to later detec when all the sequence is done
     var promises = [];
-    var deferred;
-    for(var i in this.sequence) {
-      var activateTimer = i * 1000;
-      var deactivateTimer = i * 1000 + 500;
+    let deferred;
+    for(let i in this.sequence) {
+      const activateTimer = i * 1000;
+      const deactivateTimer = i * 1000 + 500;
       deferred = $.Deferred();
       promises.push(deferred);
 
@@ -107,7 +106,7 @@ var game = {
     if(this.running === false) {
       return;
     }
-    var id = (typeof event === 'string') ? event : event.currentTarget.getAttribute('id');
+    const id = (typeof event === 'string') ? event : event.currentTarget.getAttribute('id');
     // highlight the button
 	  this.quadrants[id]['$element'].css('background-color', this.quadrants[id]['colorActive']);
     // play audio
@@ -125,7 +124,7 @@ var game = {
     }
   },
   deactivateAllQuadrants: function() {
-    for(var el in this.quadrants) {
+    for(let el in this.quadrants) {
       this.deactivateQuadrant(el);
     }
   },
@@ -137,7 +136,7 @@ var game = {
     this.$display = $('.display span');
     this.$startButton = $('.button.start');
     this.$strictButton = $('.button.strict');
-    for(var el in this.quadrants) {
+    for(let el in this.quadrants) {
       this.quadrants[el]['$element'] = $('#' + el);
       this.quadrants[el]['audio'] =
         new Audio('https://s3.amazonaws.com/freecodecamp/simonSound' + el.slice(-1) + '.mp3');
