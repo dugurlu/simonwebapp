@@ -139,7 +139,7 @@ const game = {
     for(let el in this.quadrants) {
       this.quadrants[el]['$element'] = $('#' + el);
       this.quadrants[el]['audio'] =
-        new Audio('https://s3.amazonaws.com/freecodecamp/simonSound' + el.slice(-1) + '.mp3');
+        new Audio('../resources/simonSound' + el.slice(-1) + '.mp3');
     }
   },
   bindEvents: function() {
