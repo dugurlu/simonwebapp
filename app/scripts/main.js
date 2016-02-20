@@ -1,24 +1,27 @@
+/*global $ */
+'use strict';
+
 const game = {
   quadrants: {
     sq1: {
       colorActive: '#F00',
       colorNormal: '#B10000',
-      name: 'sq1',
+      name: 'sq1'
     },
     sq2: {
       colorActive: '#0F0',
       colorNormal: '#00B100',
-      name: 'sq2',
+      name: 'sq2'
     },
     sq3: {
       colorActive: '#00F',
       colorNormal: '#0000B1',
-      name: 'sq3',
+      name: 'sq3'
     },
     sq4: {
       colorActive: '#FF0',
       colorNormal: '#B1B100',
-      name: 'sq4',
+      name: 'sq4'
     }
   },
   sequence: [],
@@ -50,7 +53,7 @@ const game = {
     this.disableQuadrants();
     this.deactivateAllQuadrants();
     this.$switchPosition.css('left', '2px');
-    this.$display.text('--')
+    this.$display.text('--');
     this.$display.css('visibility', 'hidden');
     this.resetGame();
   },
@@ -88,10 +91,10 @@ const game = {
     for(let i in this.sequence) {
       const activateTimer = i * 1000;
       const deactivateTimer = i * 1000 + 500;
-      deferred = $.Deferred();
+      deferred = new $.Deferred();
       promises.push(deferred);
 
-      setTimeout(this.activateQuadrant.bind(this), activateTimer , this.sequence[i]);
+      setTimeout(this.activateQuadrant.bind(this), activateTimer, this.sequence[i]);
       setTimeout(this.deactivateQuadrant.bind(this), deactivateTimer, this.sequence[i], deferred);
     }
     return promises;
@@ -108,17 +111,17 @@ const game = {
     }
     const id = (typeof event === 'string') ? event : event.currentTarget.getAttribute('id');
     // highlight the button
-	  this.quadrants[id]['$element'].css('background-color', this.quadrants[id]['colorActive']);
+    this.quadrants[id].$element.css('background-color', this.quadrants[id].colorActive);
     // play audio
-    this.quadrants[id]['audio'].currentTime = 0;
-    this.quadrants[id]['audio'].play();
+    this.quadrants[id].audio.currentTime = 0;
+    this.quadrants[id].audio.play();
 
     setTimeout(this.deactivateQuadrant.bind(this), 500, id);
 	},
   deactivateQuadrant: function(id, deferred) {
-    this.quadrants[id]['audio'].pause();
-    this.quadrants[id]['audio'].currentTime = 0;
-    this.quadrants[id]['$element'].css('background-color', this.quadrants[id]['colorNormal']);
+    this.quadrants[id].audio.pause();
+    this.quadrants[id].audio.currentTime = 0;
+    this.quadrants[id].$element.css('background-color', this.quadrants[id].colorNormal);
     if(deferred) {
       deferred.resolve();
     }
@@ -137,8 +140,8 @@ const game = {
     this.$startButton = $('.button.start');
     this.$strictButton = $('.button.strict');
     for(let el in this.quadrants) {
-      this.quadrants[el]['$element'] = $('#' + el);
-      this.quadrants[el]['audio'] =
+      this.quadrants[el].$element = $('#' + el);
+      this.quadrants[el].audio =
         new Audio('../resources/simonSound' + el.slice(-1) + '.mp3');
     }
   },
@@ -155,7 +158,7 @@ const game = {
       this.powerOn();
     }
     this.running = !this.running;
-  },
+  }
 };
 
 game.init();
