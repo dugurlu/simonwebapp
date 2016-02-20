@@ -25,6 +25,7 @@ const game = {
     }
   },
   sequence: [],
+  userInputIndex: 0,
 	running: false,
 	strict: false,
 	init: function() {
@@ -33,15 +34,13 @@ const game = {
   },
 	resetGame: function() {
     // TODO
-    // this.sequence = [];
+    this.sequence = [];
   },
   startGame: function() {
     if(this.running) {
       this.resetGame();
     }
-    this.disableQuadrants();
     this.showNewSequence();
-    this.checkUserSequence();
   },
   powerOn: function() {
     this.$switchPosition.css('left', '28px');
@@ -61,7 +60,16 @@ const game = {
     // get new random quadrant to play
     let newQuadrant = 'sq' + (1 + Math.floor(Math.random() * 4));
     this.sequence.push(newQuadrant);
+    this.showCurrentSequence();
+  },
+  showCurrentSequence: function() {
+    // reset previous user input
+    this.userInputIndex = 0;
+    // disable user interaction
+    this.disableQuadrants();
+    // update display
     this.$display.text(this.sequence.length);
+    // enable user interaction after sequence was presented
     $.when.apply(null, this.playSequence()).done(function() {
       this.enableQuadrants();
     }.bind(this));
@@ -99,8 +107,28 @@ const game = {
     }
     return promises;
   },
-  checkUserSequence: function() {
+  checkUserSequence: function(event) {
     // TODO
+    const id = (typeof event === 'string') ? event : event.currentTarget.getAttribute('id');
+    this.activateQuadrant(id);
+
+    let matched = false;
+    if(this.sequence[this.userInputIndex] == id) {
+      matched = true;
+    }
+
+    if(matched) {
+      this.userInputIndex += 1;
+
+      if(this.userInputIndex === this.sequence.length) {
+        this.showNewSequence();
+      }
+    } else {
+      this.disableQuadrants();
+      this.$display.text("ERR");
+      // repeat this sequence
+      setTimeout(this.showCurrentSequence.bind(this), 2000);
+    }
   },
   toggleStrict: function() {
     console.log('strict pressed');
@@ -117,6 +145,7 @@ const game = {
     this.quadrants[id].audio.play();
 
     setTimeout(this.deactivateQuadrant.bind(this), 500, id);
+
 	},
   deactivateQuadrant: function(id, deferred) {
     this.quadrants[id].audio.pause();
@@ -146,7 +175,7 @@ const game = {
     }
   },
   bindEvents: function() {
-    this.$quadrant.on('click', this.activateQuadrant.bind(this));
+    this.$quadrant.on('click', this.checkUserSequence.bind(this));
     this.$powerSwitch.on('click', this.toggleSwitch.bind(this));
     this.$startButton.on('click', this.startGame.bind(this));
     this.$strictButton.on('click', this.toggleStrict.bind(this));
