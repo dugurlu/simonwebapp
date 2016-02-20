@@ -28,6 +28,7 @@ const game = {
   userInputIndex: 0,
 	running: false,
 	strict: false,
+  timeouts: [],
 	init: function() {
     this.cacheDom();
     this.bindEvents();
@@ -35,6 +36,10 @@ const game = {
 	resetGame: function() {
     // TODO
     this.sequence = [];
+    for(var i=0; i<this.timeouts.length; i++){
+      clearTimeout(this.timeouts[i]);
+    }
+    this.timeouts = [];
   },
   startGame: function() {
     if(this.running) {
@@ -102,8 +107,8 @@ const game = {
       deferred = new $.Deferred();
       promises.push(deferred);
 
-      setTimeout(this.activateQuadrant.bind(this), activateTimer, this.sequence[i]);
-      setTimeout(this.deactivateQuadrant.bind(this), deactivateTimer, this.sequence[i], deferred);
+      this.timeouts.push(setTimeout(this.activateQuadrant.bind(this), activateTimer, this.sequence[i]));
+      this.timeouts.push(setTimeout(this.deactivateQuadrant.bind(this), deactivateTimer, this.sequence[i], deferred));
     }
     return promises;
   },
@@ -118,16 +123,21 @@ const game = {
     }
 
     if(matched) {
+
       this.userInputIndex += 1;
 
       if(this.userInputIndex === this.sequence.length) {
-        this.showNewSequence();
+        if(this.userInputIndex == 2) {
+          // win condition = 20 correct steps
+          this.$display.text("WIN!");
+          this.timeouts.push(setTimeout(this.startGame.bind(this), 2000));
+        }
+        this.timeouts.push(setTimeout(this.showNewSequence.bind(this), 2000));
       }
     } else {
-      this.disableQuadrants();
       this.$display.text("ERR");
       // repeat this sequence
-      setTimeout(this.showCurrentSequence.bind(this), 2000);
+      this.timeouts.push(setTimeout(this.showCurrentSequence.bind(this), 2000));
     }
   },
   toggleStrict: function() {
@@ -144,7 +154,7 @@ const game = {
     this.quadrants[id].audio.currentTime = 0;
     this.quadrants[id].audio.play();
 
-    setTimeout(this.deactivateQuadrant.bind(this), 500, id);
+    this.timeouts.push(setTimeout(this.deactivateQuadrant.bind(this), 500, id));
 
 	},
   deactivateQuadrant: function(id, deferred) {
