@@ -28,15 +28,16 @@ const game = {
   userInputIndex: 0,
 	running: false,
 	strict: false,
+  strictInactive: '#ADAD00',
+  strictActive: '#FF0',
   timeouts: [],
 	init: function() {
     this.cacheDom();
     this.bindEvents();
   },
 	resetGame: function() {
-    // TODO
     this.sequence = [];
-    for(var i=0; i<this.timeouts.length; i++){
+    for(var i = 0; i < this.timeouts.length; i++){
       clearTimeout(this.timeouts[i]);
     }
     this.timeouts = [];
@@ -113,12 +114,11 @@ const game = {
     return promises;
   },
   checkUserSequence: function(event) {
-    // TODO
     const id = (typeof event === 'string') ? event : event.currentTarget.getAttribute('id');
     this.activateQuadrant(id);
 
     let matched = false;
-    if(this.sequence[this.userInputIndex] == id) {
+    if(this.sequence[this.userInputIndex] === id) {
       matched = true;
     }
 
@@ -127,21 +127,33 @@ const game = {
       this.userInputIndex += 1;
 
       if(this.userInputIndex === this.sequence.length) {
-        if(this.userInputIndex == 2) {
+        if(this.userInputIndex === 20) {
           // win condition = 20 correct steps
-          this.$display.text("WIN!");
+          this.$display.text('WIN!');
           this.timeouts.push(setTimeout(this.startGame.bind(this), 2000));
         }
         this.timeouts.push(setTimeout(this.showNewSequence.bind(this), 2000));
       }
     } else {
-      this.$display.text("ERR");
-      // repeat this sequence
-      this.timeouts.push(setTimeout(this.showCurrentSequence.bind(this), 2000));
+      // TODO: strict mode
+      this.$display.text('ERR');
+
+      if(this.strict) {
+        // restart the game
+        this.timeouts.push(setTimeout(this.startGame.bind(this), 2000));
+      } else {
+        // repeat this sequence
+        this.timeouts.push(setTimeout(this.showCurrentSequence.bind(this), 2000));
+      }
     }
   },
   toggleStrict: function() {
-    console.log('strict pressed');
+    this.strict = !this.strict;
+    if(this.strict) {
+      this.$strictButton.css('background-color', this.strictActive);
+    } else {
+      this.$strictButton.css('background-color', this.strictInactive);
+    }
   },
 	activateQuadrant: function(event) {
     if(this.running === false) {
